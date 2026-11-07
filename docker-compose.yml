@@ -1,0 +1,51 @@
+name: gofence
+
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: gofence
+      POSTGRES_PASSWORD: gofence
+      POSTGRES_DB: gofence
+    ports:
+      # Host 5433 avoids clashing with a local Postgres already bound to 5432.
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gofence -d gofence"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  api:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgres://gofence:gofence@db:5432/gofence?sslmode=disable
+      PORT: "8080"
+      RATE_LIMIT_PER_MIN: "120"
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:8080/health"]
+      interval: 5s
+      timeout: 4s
+      retries: 20
+      start_period: 10s
+
+  web:
+    build:
+      context: ./frontend
+      args:
+        # The browser on the host calls this URL, not the Docker service name.
+        VITE_API_URL: http://localhost:8080
+    ports:
+      - "4173:80"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:

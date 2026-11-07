@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-ink font-sans text-paper antialiased;
+}
+
+.input {
+  @apply w-full rounded-md border border-line bg-ink px-3 py-2 text-sm text-paper outline-none transition focus:border-amber focus:ring-2 focus:ring-amber/30;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-md bg-amber px-3 py-2 text-sm font-semibold text-ink transition hover:bg-amber/90 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 rounded-md border border-line px-3 py-2 text-sm font-medium text-paper transition hover:border-mist disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.label {
+  @apply mb-1 block text-xs font-medium uppercase tracking-wider text-mist;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  background: #101416;
+  font-family: Outfit, "Segoe UI", sans-serif;
+}
+
+.leaflet-container img {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.leaflet-container.drawing,
+.leaflet-container.drawing .leaflet-interactive {
+  cursor: crosshair;
+}
+
+.veh-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.veh-dot {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #e0a425;
+  border: 2px solid #101416;
+  box-shadow: 0 0 0 6px rgba(224, 164, 37, 0.25);
+}
+
+.veh-dot.is-hot {
+  background: #e15a45;
+  box-shadow: 0 0 0 6px rgba(225, 90, 69, 0.28);
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: #181e21;
+  color: #e8eee9;
+  box-shadow: none;
+  border: 1px solid #2a3438;
+}
+
+.leaflet-popup-content {
+  margin: 10px 12px;
+}
+
+.leaflet-bar a {
+  background: #181e21;
+  color: #e8eee9;
+  border-color: #2a3438;
+}
